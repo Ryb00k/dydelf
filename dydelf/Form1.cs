@@ -2,7 +2,7 @@ namespace dydelf
 {
     public partial class Form1 : Form
     {
-        
+
         public Form1()
         {
             InitializeComponent();
@@ -14,7 +14,7 @@ namespace dydelf
 
         private void button1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(GlobalVars.y.ToString());
+            MessageBox.Show(GlobalVars.dydelf.ToString());
             Form2 form = new Form2(this);
             form.Show();
         }
@@ -23,6 +23,11 @@ namespace dydelf
         {
             Form3 form = new Form3(this);
             form.Show();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 

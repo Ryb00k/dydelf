@@ -28,12 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form2";
+            LabelCzas = new Label();
+            SuspendLayout();
+            // 
+            // LabelCzas
+            // 
+            LabelCzas.AutoSize = true;
+            LabelCzas.Location = new Point(717, 12);
+            LabelCzas.Name = "LabelCzas";
+            LabelCzas.Size = new Size(38, 15);
+            LabelCzas.TabIndex = 0;
+            LabelCzas.Text = "label1";
+            LabelCzas.Click += LabelCzas_Click;
+            // 
+            // Form2
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 450);
+            Controls.Add(LabelCzas);
+            Name = "Form2";
+            Text = "Form2";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private Label LabelCzas;
     }
 }

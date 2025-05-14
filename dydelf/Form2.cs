@@ -20,6 +20,9 @@ namespace dydelf
         private Stopwatch stoper;
         private Timer gameTimer;
 
+        private Timer krokodylTimer;
+        private Button ostatniKliknietyKrokodyl = null;
+
         private void Ticker(object sender, EventArgs e)
         {
 
@@ -36,38 +39,83 @@ namespace dydelf
             }
 
         }
+
+        private void KrokodylTimeout(object sender, EventArgs e)
+        {
+            krokodylTimer.Stop();
+            krokodylTimer.Dispose();
+
+            MessageBox.Show("Koniec gry! Trafiłeś na krokodyla.");
+            this.Close();
+        }
+
         private void Button_Click(object sender, EventArgs e)
         {
-            
             Button clickedButton = sender as Button;
             string[] parts = clickedButton.Name.Split('_');
             int col = int.Parse(parts[1]);
             int row = int.Parse(parts[2]);
 
+            if (krokodylTimer != null && krokodylTimer.Enabled)
+            {
+                
+                if (clickedButton == ostatniKliknietyKrokodyl)
+                {
+                    
+                    krokodylTimer.Stop();
+                    krokodylTimer.Dispose();
+                    krokodylTimer = null;
+                    ostatniKliknietyKrokodyl = null;
+
+                    clickedButton.BackColor = SystemColors.Control;
+                    stoper.Start();
+                    gameTimer.Start();
+                    return;
+                }
+                else
+                {
+                    
+                    return;
+                }
+            }
+
             switch (plansza[col, row])
             {
-
                 case Pole.Puste:
                     clickedButton.BackColor = Color.LightGray;
+                    clickedButton.Enabled = false;
                     break;
 
                 case Pole.Dydelf:
                     clickedButton.BackColor = Color.LightGreen;
                     ZnalezioneDydelfy++;
+                    clickedButton.Enabled = false;
                     break;
+
                 case Pole.Krokodyl:
                     clickedButton.BackColor = Color.Red;
-                    MessageBox.Show("Trafiles na krokodyla. Koniec gry!");
-                    this.Close();
+
+                    ostatniKliknietyKrokodyl = clickedButton;
+
+                    stoper.Stop();
+                    gameTimer.Stop();
+
+                    krokodylTimer = new Timer();
+                    krokodylTimer.Interval = 2000;
+                    krokodylTimer.Tick += KrokodylTimeout;
+                    krokodylTimer.Start();
+
+                    LabelCzas.Text = $"Trafiłeś na krokodyla! Masz 2 sekundy na odkliknięcie";
                     break;
             }
-            clickedButton.Enabled = false;
+
             if (ZnalezioneDydelfy == GlobalVars.dydelf)
             {
                 MessageBox.Show("Udało ci się znalezc wszystkie Dydelfy!");
                 this.Close();
             }
         }
+
         public void board(int x, int y)
         {
             int left = 50;
